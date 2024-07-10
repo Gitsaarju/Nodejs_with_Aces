@@ -9,7 +9,7 @@ const Schema=mongoose.Schema
         type:String
     },
     description:{
-        typr:String
+        type:String
     },
     image:{
         type:String

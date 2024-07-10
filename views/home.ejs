@@ -71,16 +71,13 @@
 
 <!-- Cards -->
 <div class="container">
-  <% blogs.forEach((blog)=>{%>
+  <% blogs.forEach((blog)=>{  %>
   <div class="card">
-    
-
-  
-    <img src=<%-encodeURI(blog.image)%> alt="def">
     <div class="title"><%-blog.title%></div>
-    <h2 class="card-title">Card 1</h2>
+    <!-- <h2 class="card-title">Card 1</h2> -->
+    <a href="/blogpage/<%- blog._id %>">See more</a>
   </div>
-<% })%>
+<% }) %>
   
   
 

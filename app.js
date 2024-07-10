@@ -2,6 +2,7 @@ const { name } = require("ejs")
 const express=require("express")
 const connectToDb = require("./database/databaseConnection")
 const Blog=require ("./model/blogmodel")
+const encodeURI = require('encodeurl')
 const app = express()
 // const multer=require("./middleware/multerConfig").multer
 // const storge- require("./middleware/multerConfig").storage
@@ -14,16 +15,16 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
 app.set('view engine','ejs')
-app.get("/",async (req,res)=>{
+app.get("/blog/home",async (req,res)=>{
     const blogs= await Blog.find() //find returns array
     // console.log(blogs)
     if(blogs.length==0){
         res.send("No blogs")
     }
-    res.render("home",{blogs:blogs})
+    res.render("home.ejs",{blogs:blogs})
 })
 
-app.get("/",(req,res)=>{
+app.get("/home",(req,res)=>{
     console.log(req)
     res.send("this is the homepage")
 })
@@ -31,10 +32,10 @@ app.get("/about",(req,res)=>{
     console.log(req)
     res.send("this is the aboutpage")
 })
-app.get("/blog/home" ,(req,res)=>{
-    const create ="home"
-    res.render("home.ejs", {create})
-})
+// app.get("/blog/home" ,(req,res)=>{
+//     const create ="home"
+//     res.render("home.ejs", {create})
+// })
 app.get("/about",(req,res)=>{
     const name=rjuGautam
     res.render("about.ejs",{ name : name})
@@ -70,6 +71,28 @@ app.post("/createblog",upload.single('image'),async(req,res)=>{
     })
     res.send("Post hitted")
 })
+// app.get("/blog",(req,res)=>{
+//     const page="blog"
+//     res.render("blogpage.ejs",{page})
+// })
+app.get("/blogpage/:id",async(req,res) =>{
+    const id=req.params.id
+   const blog= await Blog.findById(id)
+   console.log(blog)
+    res.render("blogpage.ejs",{blog,encodeURI:encodeURI})
+})
+
+app.get("/deleteblog/:id",async (req,res)=>{
+    const id = req.params.id 
+    await Blog.findByIdAndDelete(id)
+    res.redirect("/")
+})
+app.get("/editblog/:id",(req,res)=>{
+    res.render("./editBlog")
+
+
+})
+    
 app.use(express.static("./storage"))
 app.listen(3000
     ,()=>{
