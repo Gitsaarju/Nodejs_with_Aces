@@ -11,10 +11,15 @@ const Schema=mongoose.Schema
     description:{
         type:String
     },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     image:{
         type:String
     }
-})
+},{ timestamps:true });
 
  const Blog =mongoose.model("Blog",blogSchema)
  module.exports = Blog
